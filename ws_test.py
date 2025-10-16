@@ -9,6 +9,7 @@ pip install websockets
 '''
 
 import asyncio
+import os
 import websockets
 import uuid
 import json
@@ -21,11 +22,11 @@ MESSAGE_TYPE_SPECIFIC_FLAGS = {0: "no sequence number", 1: "sequence number > 0"
 MESSAGE_SERIALIZATION_METHODS = {0: "no serialization", 1: "JSON", 15: "custom type"}
 MESSAGE_COMPRESSIONS = {0: "no compression", 1: "gzip", 15: "custom compression method"}
 
-appid = "5142285262"
-token = "3hpVlzSZZkLakcOEMsfKDcDDWWdKCxpb"
-cluster = "volcano_icl"
-voice_type = "S_nLVvYpzH1"
-host = "openspeech.bytedance.com"
+appid = os.getenv("OPENSPEECH_APPID", "5142285262")
+token = os.getenv("OPENSPEECH_TOKEN", "3hpVlzSZZkLakcOEMsfKDcDDWWdKCxpb")
+cluster = os.getenv("OPENSPEECH_CLUSTER", "volcano_icl")
+voice_type = os.getenv("OPENSPEECH_VOICE_TYPE", "S_nLVvYpzH1")
+host = os.getenv("OPENSPEECH_HOST", "openspeech.bytedance.com")
 api_url = f"wss://{host}/api/v1/tts/ws_binary"
 
 # version: b0001 (4 bits)
@@ -55,7 +56,7 @@ request_json = {
     },
     "request": {
         "reqid": "xxx",
-        "text": "这个声音克隆技术也太棒了！",
+        "text": "この音声クローン技術もすごいですね！",
         "text_type": "plain",
         "operation": "xxx"
     }
