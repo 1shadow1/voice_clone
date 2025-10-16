@@ -55,7 +55,7 @@ request_json = {
     },
     "request": {
         "reqid": "xxx",
-        "text": "字节跳动语音合成。",
+        "text": "这个声音克隆技术也太棒了！",
         "text_type": "plain",
         "operation": "xxx"
     }
@@ -75,7 +75,7 @@ async def test_submit():
     print("\n------------------------ test 'submit' -------------------------")
     print("request json: ", submit_request_json)
     print("\nrequest bytes: ", full_client_request)
-    file_to_save = open("test_submit.mp3", "wb")
+    file_to_save = open("test_stream.mp3", "wb")
     header = {"Authorization": f"Bearer; {token}"}
     async with websockets.connect(api_url, additional_headers=header, ping_interval=None) as ws:
         await ws.send(full_client_request)
@@ -101,7 +101,7 @@ async def test_query():
     print("\n------------------------ test 'query' -------------------------")
     print("request json: ", query_request_json)
     print("\nrequest bytes: ", full_client_request)
-    file_to_save = open("test_query.mp3", "wb")
+    file_to_save = open("test_direct.mp3", "wb")
     header = {"Authorization": f"Bearer; {token}"}
     async with websockets.connect(api_url, additional_headers=header, ping_interval=None) as ws:
         await ws.send(full_client_request)
