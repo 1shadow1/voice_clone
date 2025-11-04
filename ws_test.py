@@ -25,7 +25,8 @@ MESSAGE_COMPRESSIONS = {0: "no compression", 1: "gzip", 15: "custom compression 
 appid = os.getenv("OPENSPEECH_APPID", "5142285262")
 token = os.getenv("OPENSPEECH_TOKEN", "3hpVlzSZZkLakcOEMsfKDcDDWWdKCxpb")
 cluster = os.getenv("OPENSPEECH_CLUSTER", "volcano_icl")
-voice_type = os.getenv("OPENSPEECH_VOICE_TYPE", "S_nLVvYpzH1")
+# voice_type = os.getenv("OPENSPEECH_VOICE_TYPE", "S_nLVvYpzH1")
+voice_type = os.getenv("OPENSPEECH_VOICE_TYPE", "S_t2Xwo6DH1")
 host = os.getenv("OPENSPEECH_HOST", "openspeech.bytedance.com")
 api_url = f"wss://{host}/api/v1/tts/ws_binary"
 
@@ -56,7 +57,7 @@ request_json = {
     },
     "request": {
         "reqid": "xxx",
-        "text": "この音声クローン技術もすごいですね！",
+        "text": "这是用于测试声音克隆技术中期成果的测试内容。",
         "text_type": "plain",
         "operation": "xxx"
     }

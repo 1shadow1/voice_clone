@@ -73,14 +73,24 @@ export OPENSPEECH_HOST=openspeech.bytedance.com
 
 ```
 pip install -r requirements.txt
-export OPENSPEECH_APPID=你的appid
-export OPENSPEECH_TOKEN=你的access_token
-export OPENSPEECH_CLUSTER=volcano_icl   # 可根据控制台实际开通集群调整
-export OPENSPEECH_VOICE_TYPE=S_nLVvYpzH1 # 可选，不设置则用代码内的默认
-export OPENSPEECH_HOST=openspeech.bytedance.com # 或 openspeech.byteoversea.com（海外）
-
 uvicorn api_server:app --host 0.0.0.0 --port 8000
 ```
+
+支持 `.env` 文件配置（推荐）：
+
+```
+# 在项目根目录创建 /srv/voice_clone/.env 并填入：
+OPENSPEECH_APPID="你的appid"
+OPENSPEECH_TOKEN="你的access_token"
+OPENSPEECH_CLUSTER="volcano_icl"
+OPENSPEECH_VOICE_TYPE="S_nLVvYpzH1"
+OPENSPEECH_HOST="openspeech.bytedance.com" # 海外：openspeech.byteoversea.com
+
+# 然后直接启动，不再需要在命令行注入这些环境变量：
+uvicorn api_server:app --host 0.0.0.0 --port 8000
+```
+
+说明：服务在启动时会优先读取项目目录的 `.env`（通过 `python-dotenv`），如果 `.env` 不存在则读取系统环境变量。
 
 端口说明：如果 `8000` 被占用，可改用 `8013`，示例：
 ```
@@ -143,6 +153,7 @@ ls -lh output/long_stream_2sec.mp3
 说明：
 - 短文本往往一次性返回，较难演示中断；使用更长文本或延后打断更直观。
 - 中断发生后，如果音频片段尚未写入，输出文件可能不存在或较小，这属正常现象。
+- 在保存为 mp3 之前，建议先检查响应头：若 `content-type` 为 `application/json`，说明是错误信息（例如未配置凭证），不要将其保存为 `.mp3`。
 
 示例（Python 客户端流式保存）：
 
@@ -208,6 +219,9 @@ requests.post('http://localhost:8000/api/tts/interrupt', json={"session_id": "de
   - 使用 `asyncio.run(main())`
 - 有错误消息但无音频文件：
   - 当服务返回错误类型（0xf），脚本不会写入音频；请先修复鉴权或参数问题
+- 保存的 mp3 无法播放：
+  - 检查文件类型是否为 `JSON text data`（`file your.mp3`）；若是，说明保存了错误响应而非音频流。
+  - 确认已在 `.env` 或系统环境中配置了 `OPENSPEECH_*` 凭证；并确保令牌与域名匹配。
 
 ## 自定义与扩展
 - 修改合成文本：`request.text`
