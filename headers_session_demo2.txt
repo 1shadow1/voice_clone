@@ -1,8 +1,0 @@
-HTTP/1.1 200 OK
-date: Wed, 05 Nov 2025 09:01:32 GMT
-server: uvicorn
-x-session-id: session_demo
-x-save-path: /srv/voice_clone/output/session_demo.mp3
-content-type: audio/mpeg
-transfer-encoding: chunked
-
